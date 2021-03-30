@@ -1,8 +1,8 @@
 name: scroll_with_tabs
-description: A new Flutter package.
+description: Add a detail page having tabs. Move on a widget on click on tab.
 version: 0.0.1
-author:
-homepage:
+author: Sanjay Kumar
+homepage: https://github.com/sanjaymajoka/scroll_with_tabs.git
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
