@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:scroll_with_tabs/models/TabData.dart';
 
 typedef ScrollIndexedWidgetBuilder = Widget Function(
-    BuildContext context, int index, GlobalKey key);
+    BuildContext context, int index);
 
 class ScrollWithTabs extends StatefulWidget {
   final List<TabData> tabDataList;
@@ -20,7 +20,7 @@ class ScrollWithTabs extends StatefulWidget {
 
 class _ScrollWithTabsState extends State<ScrollWithTabs> {
   ScrollController scrollController;
-  final List<GlobalKey> keys = [];
+  final List<ValueKey<int>> keys = [];
   final List<Widget> widgets = [];
 
   @override
@@ -28,8 +28,12 @@ class _ScrollWithTabsState extends State<ScrollWithTabs> {
     return DefaultTabController(
         length: widget.tabDataList.length,
         child: NestedScrollView(
-          headerSliverBuilder:
-              (BuildContext context, bool innerBoxIsScrolled) {},
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return [
+              SliverAppBar(
+              )
+            ];
+          },
           body: Builder(
             builder: (context) {
               scrollController = PrimaryScrollController.of(context);
@@ -47,8 +51,12 @@ class _ScrollWithTabsState extends State<ScrollWithTabs> {
   List<Widget> buildChildren(BuildContext context) {
     if (widgets.length == 0) {
       for (int index = 0; index < widget.tabDataList.length; index++) {
-        final key = GlobalKey();
-        widgets.add(widget.itemBuilder?.call(context, index, key));
+        final key = ValueKey<int>(index);
+        Widget item = Container(
+          key: key,
+          child: widget.itemBuilder?.call(context, index),
+        );
+        widgets.add(item);
         keys.add(key);
       }
     }
